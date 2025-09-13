@@ -158,14 +158,7 @@ public class Node2D<T> {
     }
 
 
-    public java.util.List<Node2DGrid<T>> neighbors4(Node2DGrid<T> node) {
-        java.util.ArrayList<Node2DGrid<T>> out = new java.util.ArrayList<>(4);
-        if (node.up   != null) out.add(node.up);
-        if (node.down != null) out.add(node.down);
-        if (node.prev != null) out.add(node.prev); // left
-        if (node.next != null) out.add(node.next); // right
-        return out;
-    }
+    
     // Inside your Node2D<T> class
     public void buildEmptyGridFromImageSize(int width, int height) {
         if (width <= 0 || height <= 0) {
