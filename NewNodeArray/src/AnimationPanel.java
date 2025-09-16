@@ -9,18 +9,17 @@ import javax.imageio.ImageIO;
 
 public class AnimationPanel extends JPanel {
 
-    private BufferedImage[] frames; // Array de imagens
-    private int currentFrame = 0;   // índice do frame atual
-    private int delay = 100;        // delay entre os frames em ms (100ms = 10fps)
+    private BufferedImage[] frames;
+    private int currentFrame = 0;
+    private int delay = 100;
 
     public AnimationPanel(File framesDir, int delay) throws IOException {
         this.delay = delay;
         loadFrames(framesDir);
 
-        // Timer Swing para atualizar o frame
         Timer timer = new Timer(delay, e -> {
             currentFrame = (currentFrame + 1) % frames.length;
-            repaint(); // redesenha o painel
+            repaint();
         });
         timer.start();
     }
@@ -31,12 +30,26 @@ public class AnimationPanel extends JPanel {
             throw new IOException("Nenhum frame PNG encontrado em: " + framesDir.getAbsolutePath());
         }
 
-        // Ordena os arquivos pelo nome (frame_000001.png, frame_000002.png, ...)
-        java.util.Arrays.sort(files);
+        // 🔹 Substitui Arrays.sort() por um Bubble Sort simples
+        bubbleSort(files);
 
         frames = new BufferedImage[files.length];
         for (int i = 0; i < files.length; i++) {
             frames[i] = ImageIO.read(files[i]);
+        }
+    }
+
+    // Implementação simples de ordenação (Bubble Sort)
+    private void bubbleSort(File[] files) {
+        int n = files.length;
+        for (int i = 0; i < n - 1; i++) {
+            for (int j = 0; j < n - i - 1; j++) {
+                if (files[j].getName().compareTo(files[j + 1].getName()) > 0) {
+                    File temp = files[j];
+                    files[j] = files[j + 1];
+                    files[j + 1] = temp;
+                }
+            }
         }
     }
 
@@ -47,7 +60,6 @@ public class AnimationPanel extends JPanel {
         if (frames != null && frames.length > 0) {
             Graphics2D g2d = (Graphics2D) g.create();
 
-            // Centralizar a imagem no painel
             int x = (getWidth() - frames[currentFrame].getWidth()) / 2;
             int y = (getHeight() - frames[currentFrame].getHeight()) / 2;
 
@@ -62,8 +74,8 @@ public class AnimationPanel extends JPanel {
                 JFrame frame = new JFrame("Flood Fill Animation");
                 frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-                File framesDir = new File("frames"); // pasta dos frames
-                AnimationPanel panel = new AnimationPanel(framesDir, 50); // 50ms = ~20fps
+                File framesDir = new File("frames");
+                AnimationPanel panel = new AnimationPanel(framesDir, 50);
 
                 frame.add(panel);
                 frame.setSize(800, 800);

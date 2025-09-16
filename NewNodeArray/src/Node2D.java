@@ -158,7 +158,7 @@ public class Node2D<T> {
     }
 
 
-    
+
     // Inside your Node2D<T> class
     public void buildEmptyGridFromImageSize(int width, int height) {
         if (width <= 0 || height <= 0) {

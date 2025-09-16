@@ -10,7 +10,7 @@ public class Home {
     public static void main(String[] args) throws IOException {
         // 1) carregar uma imagem em preto e branco
         BufferedImage img = ImageIO.read(new File(
-                "C:\\Users\\gabri\\OneDrive\\Documentos\\FILL\\NewNodeArray\\src\\bw_test_64.png.png"
+                "C:\\Users\\gabri\\OneDrive\\Documentos\\GitHub\\fill\\bw_test_64.png.png"
         ));
 
         // 2) construir a grade (grid) a partir da imagem
