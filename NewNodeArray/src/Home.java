@@ -1,53 +1,33 @@
 package NewNodeArray.src;
 
 import javax.imageio.ImageIO;
-import javax.swing.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 
+/**
+ * Exemplo de uso: carrega imagem, roda Flood Fill (PILHA e FILA) e salva saídas.
+ */
 public class Home {
-    public static void main(String[] args) throws IOException {
-        // 1) carregar uma imagem em preto e branco
-        BufferedImage img = ImageIO.read(new File(
-                "bw_test_64.png"
-        ));
+    public static void main(String[] args) throws Exception {
+        // 1) Carrega imagem de entrada (ajuste o caminho se necessário)
+        BufferedImage img = ImageIO.read(new File("bw_test_64.png"));
 
-        // 2) construir a grade (grid) a partir da imagem
-        Node2D<Integer> grid = Grid.gridFromImage(img);
+        // 2) Constrói a grade (duas cópias para comparar pilha vs fila)
+        Node2D<Integer> gridDFS = Grid.gridFromImage(img);
+        Node2D<Integer> gridBFS = Grid.gridFromImage(img);
 
-        // 3) escolher a semente (pixel inicial) + cor de pintura
-        int seedX = 10, seedY = 10;   // coordenadas do pixel (x, y)
-        int newColor = 0xFFFF0077;    // ARGB (rosa opaco)
+        // 3) Parâmetros da pintura
+        int seedX = 32, seedY = 32;      // coordenadas do pixel (x,y)
+        int newColor = 0xFF22CCFF;       // ARGB (opaco)
 
-        // 4) diretório dos frames
-        File framesDir = new File("frames");
-        int captureEvery = 100; // salva um frame a cada 100 pixels preenchidos
+        // 4) Flood Fill com PILHA (DFS)
+        Grid.floodFillWhiteStack(gridDFS, seedY, seedX, newColor);
+        ImageIO.write(Grid.gridToImage(gridDFS), "png", new File("out_stack.png"));
 
-        // 5) executar o flood fill salvando os frames
-        Grid.floodFillWhiteWithFrames(grid, seedY, seedX, newColor, captureEvery, framesDir);
+        // 5) Flood Fill com FILA (BFS)
+        Grid.floodFillWhiteQueue(gridBFS, seedY, seedX, newColor);
+        ImageIO.write(Grid.gridToImage(gridBFS), "png", new File("out_queue.png"));
 
-        // 6) salvar imagem final
-        BufferedImage out = Grid.gridToImage(grid);
-        ImageIO.write(out, "png", new File("out.png"));
-
-        // 7) abrir animação Swing
-        SwingUtilities.invokeLater(() -> {
-            try {
-                JFrame frame = new JFrame("Flood Fill Animation");
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-                // cria o painel de animação (20 fps = delay de 50ms)
-                AnimationPanel panel = new AnimationPanel(framesDir, 50);
-
-                frame.add(panel);
-                frame.setSize(800, 800);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+        System.out.println("Gerado: out_stack.png e out_queue.png");
     }
 }
