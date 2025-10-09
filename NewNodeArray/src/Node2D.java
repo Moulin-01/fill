@@ -6,21 +6,27 @@ package NewNodeArray.src;
  */
 public class Node2D<T> {
 
-    // Nó de uma célula da grade
+    /** Nó de uma célula da grade. */
     public static class Node2DGrid<T> {
-        T value;
-        Node2DGrid<T> next, prev, up, down;
+        public T value; // valor armazenado (ARGB, por ex.)
+        public Node2DGrid<T> next, prev, up, down;
         Node2DGrid(T value) { this.value = value; }
     }
 
-    // âncoras e metadados
-    public Node2DGrid<T> top, bottom, left, right;
-    public int rows, cols, size;
+    // Âncoras e metadados
+    private Node2DGrid<T> top, bottom, left, right;
+    private int rows, cols, size;
 
     public Node2D() {}
 
+    /** Getters */
+    public int getRows() { return rows; }
+    public int getCols() { return cols; }
+    public int getSize() { return size; }
+    public Node2DGrid<T> getTop() { return top; } // se precisar
+
     /**
-     * Constrói uma grade vazia (height x width) com todos os valores = null,
+     * Constrói grade vazia (height x width) com todos os valores = null,
      * e "costura" os ponteiros em 2D.
      */
     public void buildEmptyGridFromImageSize(int width, int height) {
@@ -65,9 +71,7 @@ public class Node2D<T> {
         this.size  = width * height;
     }
 
-    /**
-     * Acesso por coordenada: navega a partir do topo.
-     */
+    /** Acesso por coordenada: navega a partir do topo */
     public Node2DGrid<T> getNodeAt(int row, int col) {
         if (row < 0 || col < 0 || row >= rows || col >= cols)
             throw new IndexOutOfBoundsException("row=" + row + " col=" + col);
@@ -78,5 +82,6 @@ public class Node2D<T> {
         return current;
     }
 
+    /** Define valor da célula (row,col). */
     public void setNode(T value, int row, int col) { getNodeAt(row, col).value = value; }
 }

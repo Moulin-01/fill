@@ -16,18 +16,25 @@ public class Home {
         Node2D<Integer> gridDFS = Grid.gridFromImage(img);
         Node2D<Integer> gridBFS = Grid.gridFromImage(img);
 
-        // 3) Parâmetros da pintura
-        int seedX = 32, seedY = 32;      // coordenadas do pixel (x,y)
-        int newColor = 0xFF22CCFF;       // ARGB (opaco)
+        // 3) parâmetros
+        int seedX = 10, seedY = 10;
+        int newColor = 0xFF22CCFF;
+        File framesDFS = new File("frames_FILA");
+        File framesBFS = new File("frames_PILHA");
+        int captureEvery = 10;
 
-        // 4) Flood Fill com PILHA (DFS)
-        Grid.floodFillWhiteStack(gridDFS, seedY, seedX, newColor);
-        ImageIO.write(Grid.gridToImage(gridDFS), "png", new File("out_stack.png"));
+        // 4) FILA "horizontal"
+        Grid.floodFillWhiteQueueHorizontalWithFrames(gridBFS, seedY, seedX, newColor, captureEvery, framesDFS);
 
-        // 5) Flood Fill com FILA (BFS)
-        Grid.floodFillWhiteQueue(gridBFS, seedY, seedX, newColor);
-        ImageIO.write(Grid.gridToImage(gridBFS), "png", new File("out_queue.png"));
+        javax.imageio.ImageIO.write(Grid.gridToImage(gridDFS), "png", new File("out_queue.png"));
 
-        System.out.println("Gerado: out_stack.png e out_queue.png");
+        // 5) PILHA "vertical"
+        Grid.floodFillWhiteStackVerticalWithFrames(gridDFS, seedY, seedX, newColor, captureEvery, framesBFS);
+
+        javax.imageio.ImageIO.write(Grid.gridToImage(gridBFS), "png", new File("out_stack_vertical.png"));
+
+
+
+
     }
 }
