@@ -28,12 +28,10 @@ final class MyStack<T> {
     }
 
     T peek() {
-        if (top == null) throw new java.util.NoSuchElementException("stack empty");
         return top.v;
     }
 
     T pop() {
-        if (top == null) throw new java.util.NoSuchElementException("stack empty");
         T v = top.v;
         top = top.next;
         size--;

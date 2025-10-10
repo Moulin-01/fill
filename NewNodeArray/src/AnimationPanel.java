@@ -1,12 +1,12 @@
 package NewNodeArray.src;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import javax.imageio.ImageIO;
 
 /**
  * Painel simples para animar frames PNG de UMA pasta.

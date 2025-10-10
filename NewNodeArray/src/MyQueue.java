@@ -26,7 +26,6 @@ final class MyQueue<T> {
 
     /** Desenfileira (dequeue): remove do início e retorna o valor. */
     T dequeue() {
-        if (head == null) throw new java.util.NoSuchElementException("queue empty");
         T v = head.v;
         head = head.next;
         if (head == null) tail = null; // fila ficou vazia
